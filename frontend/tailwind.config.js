@@ -8,5 +8,11 @@ export default {
     extend: {},
   },
   plugins: [require("daisyui")], // ✅ Add DaisyUI here
+  daisyui: {
+    themes: 
+    ("light",
+    "dark",
+    "cupcake", "retro")
+  }
 };
 

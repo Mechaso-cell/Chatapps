@@ -32,7 +32,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div data-theme="dark">
       <Navbar />
 
       <Routes>
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/settings" element={authUser ? <SettingsPage /> : <Navigate to="/" />} />
-        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/2" />} />
+        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/" />} />
       </Routes>
 
       <Toaster />
