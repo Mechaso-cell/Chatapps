@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT;
 // const __dirname = path.resolve();
 
-app.use(express.json());
+app.use(express.json()); // to use req.body
 app.use(cookieParser());
 app.use(
   cors({

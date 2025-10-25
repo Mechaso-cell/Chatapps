@@ -12,9 +12,11 @@ import SettingsPage from './pages/SettingsPage';
 import ProfilePage from './pages/ProfilePage';
 
 import { Toaster } from 'react-hot-toast';
+import { useThemeStore } from './store/useThemeStore';
 
 const App = () => {
   const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
+  const {theme} = useThemeStore()
 
   useEffect(() => {
     checkAuth();
@@ -32,7 +34,10 @@ const App = () => {
   }
 
   return (
-    <div data-theme="dark">
+
+
+    <div data-theme={theme}>
+
       <Navbar />
 
       <Routes>
