@@ -6,7 +6,12 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import {io} from "socket.io-client";
 
-const BASE_URL= import.meta.env.MODE === "development" ? "http://localhost:5001": "/api"
+//const BASE_URL= import.meta.env.MODE === "development" ? "http://localhost:5001": "/api"
+
+const SOCKET_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5001"
+    : "https://chatapps-9.onrender.com"; 
 
 export const useAuthStore = create((set,get) => ({
   authUser: null,
@@ -93,25 +98,22 @@ export const useAuthStore = create((set,get) => ({
     },
 
   connectSocket: () => {
-    const {authUser} = get()
-    if(!authUser || get().socket?.connected) return;
-    
-    const socket  = io(BASE_URL, {
-      query: {
-        userId: authUser._id,
-      },
-    }
-      
-    )
-    socket.connect();
+  const { authUser, socket } = get();
+  if (!authUser || socket?.connected) return; // stop if no user or already connected
 
-    set({socket:socket})
+  const newSocket = io(SOCKET_URL, {
+    query: { userId: authUser._id },
+    transports: ["websocket"], // ensure websocket transport
+    withCredentials: true,
+  });
 
-    socket.on("getOnlineUsers", (userIds) => {
-      set({onlineUsers: userIds})
-    })
+  set({ socket: newSocket });
 
-  },
+  newSocket.on("getOnlineUsers", (userIds) => {
+    set({ onlineUsers: userIds });
+  });
+},
+
 
   disconnectSocket: () => {
     if(get().socket?.connected) get().socket.disconnect();
