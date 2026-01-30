@@ -41,6 +41,8 @@ export const useChatStore = create((set, get) => ({
         `/messages/send/${selectedUser._id}`,
         messageData
       );
+
+      // optimistic update
       set({ messages: [...messages, res.data] });
     } catch (error) {
       toast.error(error.response.data.message);
@@ -48,27 +50,27 @@ export const useChatStore = create((set, get) => ({
   },
 
   subscribeToMessages: () => {
-    const { selectedUser } = get();
-    if (!selectedUser) return;
-
     const socket = useAuthStore.getState().socket;
-    if (!socket) return; // ✅ critical guard
+    const { selectedUser } = get();
+
+    if (!socket || !selectedUser) return;
+
+    // 🔥 IMPORTANT: clear old listener first
+    socket.off("newMessage");
 
     socket.on("newMessage", (newMessage) => {
-      const isFromSelectedUser =
-        newMessage.senderId === selectedUser._id;
+      if (newMessage.senderId !== selectedUser._id) return;
 
-      if (!isFromSelectedUser) return;
-
-      set({
-        messages: [...get().messages, newMessage],
-      });
+      set((state) => ({
+        messages: [...state.messages, newMessage],
+      }));
     });
   },
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     if (!socket) return;
+
     socket.off("newMessage");
   },
 
