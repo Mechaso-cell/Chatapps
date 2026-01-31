@@ -30,9 +30,9 @@ This project demonstrates hands-on learning in building a production-ready web a
 
 This project was built as a **self-taught full-stack developer**. All questions, challenges, and solutions discussed with ChatGPT during the development process are documented here:  
 
-[GDrive Learning Journal](https://drive.google.com/drive/folders/1Ukg5mEa6r2W_1R25VCSDsAaa_O6ZY92B)  
+[GDrive Learning Journal](https://drive.google.com/drive/folders/1GRcnWuppm4Jbggi-x6s9ugqwfpMgHSFb)  
 
-This demonstrates the step-by-step thought process and problem-solving approach while building the chat application.
+This shows the step-by-step thought process and problem-solving approach while building the chat application.
 
 ---
 
